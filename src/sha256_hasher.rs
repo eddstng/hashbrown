@@ -8,7 +8,7 @@ pub struct Sha256Hasher {
 }
 
 impl Sha256Hasher {
-    fn new() -> Sha256Hasher {
+    pub fn new() -> Sha256Hasher {
         Sha256Hasher {
             state: Sha256::new(),
         }
@@ -35,7 +35,7 @@ impl Hasher<32> for Sha256Hasher {
 mod tests {
     use super::*;
     use hex_literal::hex;
-    
+
     #[test]
     fn test_sha_256_hasher() {
         let mut hasher = Sha256Hasher::new();
@@ -45,6 +45,18 @@ mod tests {
         let expected: [u8; 32] = hex!(
             "936a185caaa266bb9cbe981e9e05cb78cd732b0b3280eb944412bb6f8f8f07af"
         );
-        assert_eq!(result, expected, "The SHA-256 hash did not match the expected value");
+        assert_eq!(result, expected, "The hash did not match the expected hex value");
+    }
+
+    #[test]
+    fn test_sha_256_hasher_empty() {
+        let mut hasher = Sha256Hasher::new();
+        hasher.update(b"");
+        let result = hasher.finalize();
+        // https://emn178.github.io/online-tools/sha256.html
+        let expected: [u8; 32] = hex!(
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        );
+        assert_eq!(result, expected, "The hash did not match the empty hex value");
     }
 }
