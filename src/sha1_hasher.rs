@@ -41,6 +41,9 @@ mod tests {
         hasher.update(b"helloworld");
         let result = hasher.finalize();
         // https://emn178.github.io/online-tools/sha1.html
-        assert_eq!(result[..], hex!("6adfb183a4a2c94a2f92dab5ade762a47889a5a1"));
+        let expected: [u8; 20] = hex!(
+            "6adfb183a4a2c94a2f92dab5ade762a47889a5a1"
+        );
+        assert_eq!(result[..], expected);
     }
 }
